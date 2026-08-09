@@ -248,8 +248,8 @@ frontend/
 
 1. **Clone the repository:**
    ```bash
-  https://github.com/ayeshasiddikaa728-code/Course-Learning-Platfrom.git
-   cd caregenics-learning-platform/frontend
+ [ https://github.com/ayeshasiddikaa728-code/Course-Learning-Platfrom.git
+   cd caregenics-learning-platform/frontend](https://github.com/ayeshasiddikaa728-code/Course-Learning-Platfrom.git)
    ```
 
 2. **Install dependencies:**
