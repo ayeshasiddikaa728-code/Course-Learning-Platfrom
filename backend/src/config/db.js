@@ -1,15 +1,20 @@
 const { Pool } = require('pg');
-require('dotenv').config();
 
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-});
+class Database {
+  constructor() {
+    if (!Database.instance) {
+      Database.instance = new Pool({
+        connectionString: process.env.DATABASE_URL,
+      });
+    }
+  }
 
-pool.on('connect', () => {
-  console.log('Connected to PostgreSQL database');
-});
+  getInstance() {
+    return Database.instance;
+  }
+}
 
-module.exports = {
-  query: (text, params) => pool.query(text, params),
-  pool,
-};
+const dbInstance = new Database();
+Object.freeze(dbInstance);
+
+module.exports = dbInstance.getInstance();

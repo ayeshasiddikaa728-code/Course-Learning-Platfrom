@@ -1,36 +1,43 @@
 const db = require('../config/db');
 
-exports.getAllCourses = async (req, res) => {
+// ১. চলমান কোর্সসমূহ পাওয়ার ফাংশন (Running Courses)
+const getRunningCourses = async (req, res) => {
   try {
-    const result = await db.query('SELECT * FROM Courses');
-    res.json(result.rows);
-  } catch (err) {
-    res.status(500).json({ message: 'Server error', error: err.message });
+    const result = await db.query("SELECT * FROM courses WHERE status = 'running' ORDER BY created_at DESC");
+    res.status(200).json({ success: true, data: result.rows });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
   }
 };
 
-exports.getCourseDetails = async (req, res) => {
-  const { id } = req.params;
+// ২. অফার বা ডিসকাউন্টে থাকা কোর্সসমূহ (Offered Courses)
+const getOfferedCourses = async (req, res) => {
   try {
-    const course = await db.query('SELECT * FROM Courses WHERE co_courseId = $1', [id]);
-    if (course.rows.length === 0) {
-      return res.status(404).json({ message: 'Course not found' });
+    const result = await db.query("SELECT * FROM courses WHERE is_offer = true ORDER BY created_at DESC");
+    res.status(200).json({ success: true, data: result.rows });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
+
+// ৩. নির্দিষ্ট কোর্সে ঢোকা বা ডিটেইলস দেখা (Single Course Details)
+const getCourseDetails = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await db.query("SELECT * FROM courses WHERE id = $1", [id]);
+    
+    if (result.rows.length === 0) {
+      return res.status(404).json({ success: false, message: "Course not found" });
     }
-    res.json(course.rows[0]);
-  } catch (err) {
-    res.status(500).json({ message: 'Server error', error: err.message });
+
+    res.status(200).json({ success: true, data: result.rows[0] });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
   }
 };
 
-exports.createCourse = async (req, res) => {
-  const { title, description, price } = req.body;
-  try {
-    const result = await db.query(
-      'INSERT INTO Courses (co_title, co_description, co_price) VALUES ($1, $2, $3) RETURNING *',
-      [title, description, price]
-    );
-    res.status(201).json(result.rows[0]);
-  } catch (err) {
-    res.status(500).json({ message: 'Server error', error: err.message });
-  }
+module.exports = {
+  getRunningCourses,
+  getOfferedCourses,
+  getCourseDetails
 };
