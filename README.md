@@ -248,7 +248,7 @@ frontend/
 
 1. **Clone the repository:**
    ```bash
-   git clone [https://github.com/your-username/caregenics-learning-platform.git](https://github.com/your-username/caregenics-learning-platform.git)
+  https://github.com/ayeshasiddikaa728-code/Course-Learning-Platfrom.git
    cd caregenics-learning-platform/frontend
    ```
 
