@@ -1,4 +1,4 @@
-# 🎓 CAREGENICS – Smart Course Learning & Assessment Platform
+# 🎓 CAREGENICS – Course Learning Platform
 
 CAREGENICS is an interactive, mobile-first Web Application designed for seamless course navigation, skill assessment quizzes, e-books access, and automated live certificate generation.
 
