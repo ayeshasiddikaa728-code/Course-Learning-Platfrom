@@ -1,21 +1,19 @@
 import React, { useState, useEffect } from 'react';
 
-// ================= লাইভ সার্টিফিকেট জেনারেটর ও ডাউনলোডার কম্পোনেন্ট =================
+// ================= Certificate Screen Component =================
 function CertificateScreen({ onBack, studentName = "Ayesha", courseTitle = "Data Analytics with Python" }) {
   const [name, setName] = useState(studentName);
 
-  // ডায়নামিক সার্টিফিকেট ড্রয়িং এবং ডাউনলোড ফাংশন (HTML5 Canvas)
   const downloadCertificate = () => {
     const canvas = document.createElement('canvas');
     canvas.width = 1000;
     canvas.height = 700;
     const ctx = canvas.getContext('2d');
 
-    // ব্যাকগ্রাউন্ড
+    // Background & Borders
     ctx.fillStyle = '#0f172a';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    // গোল্ডেন বর্ডার
     ctx.strokeStyle = '#d97706';
     ctx.lineWidth = 12;
     ctx.strokeRect(30, 30, canvas.width - 60, canvas.height - 60);
@@ -24,38 +22,34 @@ function CertificateScreen({ onBack, studentName = "Ayesha", courseTitle = "Data
     ctx.lineWidth = 3;
     ctx.strokeRect(45, 45, canvas.width - 90, canvas.height - 90);
 
-    // লোগো / হেডার
+    // Header / Title
     ctx.fillStyle = '#6366f1';
     ctx.font = 'bold 32px sans-serif';
     ctx.textAlign = 'center';
     ctx.fillText('CAREGENICS LEARNING PLATFORM', canvas.width / 2, 120);
 
-    // টাইটেল
     ctx.fillStyle = '#ffffff';
     ctx.font = 'bold 44px Georgia';
     ctx.fillText('CERTIFICATE OF COMPLETION', canvas.width / 2, 200);
 
-    // সাব-টাইটেল
     ctx.fillStyle = '#94a3b8';
     ctx.font = '20px sans-serif';
     ctx.fillText('THIS IS PROUDLY PRESENTED TO', canvas.width / 2, 270);
 
-    // স্টুডেন্টের নাম
+    // Student Name & Details
     ctx.fillStyle = '#f59e0b';
     ctx.font = 'bold 50px Georgia';
     ctx.fillText(name.toUpperCase(), canvas.width / 2, 350);
 
-    // বিবরণ
     ctx.fillStyle = '#cbd5e1';
     ctx.font = '22px sans-serif';
-    ctx.fillText(`for successfully completing the professional course on`, canvas.width / 2, 420);
+    ctx.fillText('for successfully completing the professional course on', canvas.width / 2, 420);
 
-    // কোর্সের নাম
     ctx.fillStyle = '#38bdf8';
     ctx.font = 'bold 36px sans-serif';
     ctx.fillText(`"${courseTitle}"`, canvas.width / 2, 480);
 
-    // তারিখ এবং সিগনেচার
+    // Footer & Signature
     const today = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
     
     ctx.fillStyle = '#94a3b8';
@@ -66,7 +60,7 @@ function CertificateScreen({ onBack, studentName = "Ayesha", courseTitle = "Data
     ctx.textAlign = 'right';
     ctx.fillText('Authorized Signature: CAREGENICS', canvas.width - 100, 590);
 
-    // অটোমেটিক ইমেজে রূপান্তর করে ডাউনলোড
+    // Download Link Trigger
     const link = document.createElement('a');
     link.download = `${name.replace(/\s+/g, '_')}_Certificate.png`;
     link.href = canvas.toDataURL('image/png');
@@ -75,22 +69,17 @@ function CertificateScreen({ onBack, studentName = "Ayesha", courseTitle = "Data
 
   return (
     <div className="flex-1 flex flex-col p-6 text-white relative pb-24">
-      {/* Top Bar */}
       <div className="flex justify-between items-center mb-6">
         <span onClick={onBack} className="cursor-pointer text-lg">←</span>
         <h3 className="text-sm font-bold">Download Certificate</h3>
         <span>📜</span>
       </div>
 
-      {/* Certificate Preview Card */}
       <div className="bg-[#18181b] border-2 border-amber-500/60 p-6 rounded-3xl text-center shadow-2xl relative overflow-hidden my-auto space-y-4">
         <span className="text-xs font-bold text-indigo-400 tracking-widest uppercase">Caregenics Verified</span>
-        
         <h3 className="text-lg font-black text-amber-400">CERTIFICATE OF COMPLETION</h3>
-        
         <p className="text-[11px] text-gray-400">Presented to:</p>
 
-        {/* Name Input for Custom Name on Certificate */}
         <input 
           type="text" 
           value={name} 
@@ -102,7 +91,6 @@ function CertificateScreen({ onBack, studentName = "Ayesha", courseTitle = "Data
         <p className="text-xs text-gray-300">For successfully completing:</p>
         <p className="text-sm font-bold text-sky-400">{courseTitle}</p>
 
-        {/* Download Button */}
         <button 
           onClick={downloadCertificate}
           className="w-full bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-black font-extrabold py-3 rounded-xl text-xs shadow-lg transition flex items-center justify-center gap-2 mt-4"
@@ -114,7 +102,7 @@ function CertificateScreen({ onBack, studentName = "Ayesha", courseTitle = "Data
   );
 }
 
-// ================= কুইজ স্ক্রিন কম্পোনেন্ট (Quiz Screen Component) =================
+// ================= Quiz Screen Component =================
 function QuizScreen({ onFinish, onGoCertificates }) {
   const quizQuestions = [
     {
@@ -174,7 +162,6 @@ function QuizScreen({ onFinish, onGoCertificates }) {
 
   return (
     <div className="flex-1 flex flex-col p-6 text-white relative pb-24">
-      {/* Top Bar */}
       <div className="flex justify-between items-center mb-6">
         <span onClick={onFinish} className="cursor-pointer text-lg">←</span>
         <h3 className="text-sm font-bold">Course Quiz</h3>
@@ -184,7 +171,6 @@ function QuizScreen({ onFinish, onGoCertificates }) {
       {!isFinished ? (
         <div className="flex-1 flex flex-col justify-between">
           <div>
-            {/* Progress Bar */}
             <div className="flex justify-between text-xs text-gray-400 mb-2">
               <span>Question {currentIndex + 1} of {quizQuestions.length}</span>
               <span>{Math.round(((currentIndex + 1) / quizQuestions.length) * 100)}%</span>
@@ -196,12 +182,10 @@ function QuizScreen({ onFinish, onGoCertificates }) {
               ></div>
             </div>
 
-            {/* Question */}
             <div className="bg-[#27272a] p-5 rounded-2xl mb-6 border border-zinc-700 shadow-md">
               <h4 className="text-sm font-bold leading-relaxed">{currentQ.question}</h4>
             </div>
 
-            {/* Options */}
             <div className="space-y-3">
               {currentQ.options.map((option, idx) => {
                 const isSelected = selectedOption === idx;
@@ -240,7 +224,6 @@ function QuizScreen({ onFinish, onGoCertificates }) {
           </button>
         </div>
       ) : (
-        /* Result Screen */
         <div className="flex-1 flex flex-col items-center justify-center text-center my-auto space-y-6">
           <div className="w-24 h-24 rounded-full border-4 border-[#4f46e5] border-t-emerald-400 flex items-center justify-center shadow-xl bg-zinc-900">
             <span className="text-2xl font-black">{percentage}%</span>
@@ -285,7 +268,7 @@ function QuizScreen({ onFinish, onGoCertificates }) {
   );
 }
 
-// ================= মূল অ্যাপ কম্পোনেন্ট (Main App Component) =================
+// ================= Main App Component =================
 export default function App() {
   const [currentScreen, setCurrentScreen] = useState('courses');
   const [filter, setFilter] = useState('all'); 
@@ -307,65 +290,46 @@ export default function App() {
       if (data.success && data.data.length > 0) {
         setCourses(data.data);
       } else {
-        setCourses([
-          {
-            id: 1,
-            title: 'System Analysis & Design',
-            code: 'MIS 4181',
-            progress: 75,
-            original_price: '500',
-            discount_price: '400',
-            is_offer: true,
-            bgColor: 'bg-[#5e548e]',
-            status: 'running'
-          },
-          {
-            id: 2,
-            title: 'Investment Banking',
-            code: 'FIN 17189',
-            progress: 60,
-            original_price: '600',
-            discount_price: '450',
-            is_offer: true,
-            bgColor: 'bg-[#2a524a]',
-            status: 'running'
-          }
-        ]);
+        setFallbackCourses();
       }
     } catch (err) {
-      setCourses([
-        {
-          id: 1,
-          title: 'System Analysis & Design',
-          code: 'MIS 4181',
-          progress: 75,
-          original_price: '500',
-          discount_price: '400',
-          is_offer: true,
-          bgColor: 'bg-[#5e548e]',
-          status: 'running'
-        },
-        {
-          id: 2,
-          title: 'Investment Banking',
-          code: 'FIN 17189',
-          progress: 60,
-          original_price: '600',
-          discount_price: '450',
-          is_offer: true,
-          bgColor: 'bg-[#2a524a]',
-          status: 'running'
-        }
-      ]);
+      setFallbackCourses();
     }
+  };
+
+  const setFallbackCourses = () => {
+    setCourses([
+      {
+        id: 1,
+        title: 'System Analysis & Design',
+        code: 'MIS 4181',
+        progress: 75,
+        original_price: '500',
+        discount_price: '400',
+        is_offer: true,
+        bgColor: 'bg-[#5e548e]',
+        status: 'running'
+      },
+      {
+        id: 2,
+        title: 'Investment Banking',
+        code: 'FIN 17189',
+        progress: 60,
+        original_price: '600',
+        discount_price: '450',
+        is_offer: true,
+        bgColor: 'bg-[#2a524a]',
+        status: 'running'
+      }
+    ]);
   };
 
   return (
     <div className="min-h-screen bg-[#111111] flex justify-center items-center p-0 md:p-4 font-sans text-white">
-      {/* মোবাইল ফ্রেম */}
+      {/* Mobile Frame */}
       <div className="w-full max-w-[390px] h-[820px] bg-black border border-zinc-800 rounded-[45px] overflow-hidden relative flex flex-col justify-between shadow-2xl">
         
-        {/* ১. SIGN IN SCREEN */}
+        {/* 1. Sign In Screen */}
         {currentScreen === 'signin' && (
           <div className="relative h-full flex flex-col justify-center px-8 text-white bg-black overflow-hidden">
             <div className="absolute -top-12 -left-12 w-40 h-40 bg-[#d1d5db] rounded-full"></div>
@@ -403,7 +367,7 @@ export default function App() {
           </div>
         )}
 
-        {/* ২. REGISTER ACCOUNT SCREEN */}
+        {/* 2. Register Screen */}
         {currentScreen === 'register' && (
           <div className="h-full flex flex-col justify-center px-8 text-white bg-black relative">
             <h2 className="text-2xl font-bold text-center mb-6">Register Account</h2>
@@ -432,7 +396,7 @@ export default function App() {
           </div>
         )}
 
-        {/* ৩. CAREGENICS HOME / COURSES SCREEN */}
+        {/* 3. Courses Home Screen */}
         {currentScreen === 'courses' && (
           <div className="flex-1 flex flex-col p-6 overflow-y-auto no-scrollbar pb-24">
             <div className="flex justify-between items-center mb-6">
@@ -476,7 +440,7 @@ export default function App() {
           </div>
         )}
 
-        {/* ৪. COURSE DETAILS SCREEN */}
+        {/* 4. Course Details Screen */}
         {currentScreen === 'details' && (
           <div className="flex-1 flex flex-col p-6 overflow-y-auto no-scrollbar relative pb-24">
             <div className="flex justify-between items-center mb-4">
@@ -484,7 +448,7 @@ export default function App() {
               <div className="flex gap-3 text-lg"><span>📡</span><span>⋮</span></div>
             </div>
 
-            <h2 className="text-xl font-bold mb-4">Fundamentals of UI/UX design</h2>
+            <h2 className="text-xl font-bold mb-4">{selectedCourse?.title || "Fundamentals of UI/UX design"}</h2>
 
             <div className="flex gap-3 text-xs mb-4">
               <button className="bg-[#1f1f23] px-6 py-2 rounded-xl text-white font-semibold">Lessons</button>
@@ -504,7 +468,7 @@ export default function App() {
 
             <div className="bg-[#1e293b] p-4 rounded-3xl flex items-center justify-between mt-auto">
               <div>
-                <span className="text-xl font-black">$500</span>
+                <span className="text-xl font-black">${selectedCourse?.discount_price || '500'}</span>
                 <span className="text-[10px] text-gray-400 block">Al mes</span>
               </div>
               <button onClick={() => setCurrentScreen('checkout')} className="bg-[#7c3aed] text-white px-8 py-2.5 rounded-full font-bold text-sm shadow-lg">Subscribe</button>
@@ -512,7 +476,7 @@ export default function App() {
           </div>
         )}
 
-        {/* ৫. CHECKOUT SCREEN */}
+        {/* 5. Checkout Screen */}
         {currentScreen === 'checkout' && (
           <div className="flex-1 flex flex-col p-6 overflow-y-auto no-scrollbar relative pb-24 text-white">
             <div className="flex items-center gap-2 mb-4">
@@ -529,7 +493,7 @@ export default function App() {
           </div>
         )}
 
-        {/* ৬. NOTIFICATION SCREEN */}
+        {/* 6. Notifications Screen */}
         {currentScreen === 'notifications' && (
           <div className="flex-1 flex flex-col p-6 text-white relative">
             <div className="flex justify-between items-center mb-6">
@@ -547,7 +511,7 @@ export default function App() {
           </div>
         )}
 
-        {/* ৭. ACCOUNTS SCREEN */}
+        {/* 7. Accounts Screen */}
         {currentScreen === 'account' && (
           <div className="flex-1 flex flex-col p-6 text-white relative">
             <div className="flex justify-between items-center mb-8">
@@ -563,10 +527,9 @@ export default function App() {
           </div>
         )}
 
-        {/* ================= ৮. EBOOKS SCREEN (Screenshot Exact Match) ================= */}
+        {/* 8. eBooks Screen */}
         {currentScreen === 'ebooks' && (
           <div className="flex-1 flex flex-col p-6 text-white bg-black relative pb-28">
-            {/* Header */}
             <div className="mb-4 pt-2">
               <h2 className="text-xl font-bold mb-2">eBooks</h2>
               <span 
@@ -577,50 +540,21 @@ export default function App() {
               </span>
             </div>
 
-            {/* 2-Column Grid with Original Tech Logos */}
             <div className="grid grid-cols-2 gap-y-10 gap-x-6 text-center my-auto px-2">
               {[
-                { 
-                  name: 'Python', 
-                  level: 'beginner', 
-                  icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg' 
-                },
-                { 
-                  name: 'Java', 
-                  level: 'beginner', 
-                  icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg' 
-                },
-                { 
-                  name: 'C++', 
-                  level: 'beginner', 
-                  icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg' 
-                },
-                { 
-                  name: 'Javascript', 
-                  level: 'beginner', 
-                  icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg' 
-                },
-                { 
-                  name: 'R', 
-                  level: 'beginner', 
-                  icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/r/r-original.svg' 
-                },
-                { 
-                  name: 'swift', 
-                  level: 'beginner', 
-                  icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/swift/swift-original.svg' 
-                }
+                { name: 'Python', level: 'beginner', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg' },
+                { name: 'Java', level: 'beginner', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg' },
+                { name: 'C++', level: 'beginner', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg' },
+                { name: 'Javascript', level: 'beginner', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg' },
+                { name: 'R', level: 'beginner', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/r/r-original.svg' },
+                { name: 'swift', level: 'beginner', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/swift/swift-original.svg' }
               ].map((book) => (
                 <div 
                   key={book.name} 
                   onClick={() => alert(`Opening ${book.name} eBook...`)}
                   className="flex flex-col items-center justify-center cursor-pointer active:scale-95 transition"
                 >
-                  <img 
-                    src={book.icon} 
-                    alt={book.name} 
-                    className="w-16 h-16 object-contain mb-3" 
-                  />
+                  <img src={book.icon} alt={book.name} className="w-16 h-16 object-contain mb-3" />
                   <p className="text-sm font-bold text-white tracking-wide">{book.name}</p>
                   <p className="text-[11px] text-gray-400 font-medium">{book.level}</p>
                 </div>
@@ -629,7 +563,7 @@ export default function App() {
           </div>
         )}
 
-        {/* ================= ৯. CERTIFICATES SCREEN (ডাউনলোড ফিচারসহ আপডেট করা হয়েছে) ================= */}
+        {/* 9. Certificates Screen */}
         {currentScreen === 'certificates' && (
           <CertificateScreen 
             onBack={() => setCurrentScreen('courses')} 
@@ -638,7 +572,7 @@ export default function App() {
           />
         )}
 
-        {/* ১০. SETTINGS SCREEN */}
+        {/* 10. Settings Screen */}
         {currentScreen === 'settings' && (
           <div className="flex-1 flex flex-col p-6 text-white relative">
             <div className="flex justify-between items-center mb-6">
@@ -652,7 +586,7 @@ export default function App() {
           </div>
         )}
 
-        {/* ১১. QUIZ SCREEN */}
+        {/* 11. Quiz Screen */}
         {currentScreen === 'quiz' && (
           <QuizScreen 
             onFinish={() => setCurrentScreen('courses')} 
@@ -660,7 +594,7 @@ export default function App() {
           />
         )}
 
-        {/* ================= BOTTOM NAVIGATION BAR ================= */}
+        {/* Bottom Navigation Bar */}
         {currentScreen !== 'signin' && currentScreen !== 'register' && (
           <div className="absolute bottom-3 left-4 right-4 bg-white text-black py-2.5 px-6 rounded-full flex justify-between items-center text-xs font-bold shadow-2xl z-30">
             <button 
@@ -677,7 +611,6 @@ export default function App() {
               <span>📖</span>
               <span className="text-[9px]">eBooks</span>
             </button>
-
             <button 
               onClick={() => setCurrentScreen('quiz')} 
               className={`flex flex-col items-center ${currentScreen === 'quiz' ? 'text-emerald-600' : 'text-gray-500'}`}
@@ -685,7 +618,6 @@ export default function App() {
               <span>🎓</span>
               <span className="text-[9px]">Quiz</span>
             </button>
-
             <button 
               onClick={() => setCurrentScreen('settings')} 
               className={`flex flex-col items-center ${currentScreen === 'settings' ? 'text-emerald-600' : 'text-gray-500'}`}
